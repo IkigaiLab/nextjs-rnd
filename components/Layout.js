@@ -18,11 +18,11 @@ const Footer = styled.div`
   }
 `;
 
-export const Layout = ({ children }) => {
+export const Layout = ({ title, children }) => {
   return (
     <div>
       <Head>
-        <title>Next Flipkarta</title>
+        <title>{title ? `${title} - Next Flipkarta` : 'Next Flipkarta'}</title>
       </Head>
       <AppBar position="static">
         <Toolbar>
