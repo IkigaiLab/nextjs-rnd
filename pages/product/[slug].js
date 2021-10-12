@@ -32,7 +32,7 @@ const ProductScreen = () => {
         `}
       >
         <NextLink href="/" passHref>
-          <Link>
+          <Link underline="hover">
             <Typography>back to products</Typography>
           </Link>
         </NextLink>
@@ -50,7 +50,9 @@ const ProductScreen = () => {
         <Grid item md={3} xs={12}>
           <List>
             <ListItem>
-              <Typography component="h1">{product.name}</Typography>
+              <Typography component="h1" variant="h1">
+                {product.name}
+              </Typography>
             </ListItem>
             <ListItem>
               <Typography>Category: {product.category}</Typography>
