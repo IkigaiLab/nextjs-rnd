@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react';
 import Head from 'next/head';
@@ -10,9 +10,11 @@ import {
   Typography,
   Link,
   CssBaseline,
+  Switch,
 } from '@mui/material';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { green, purple } from '@mui/material/colors';
+import { Store } from '../Utils/Store';
 
 import styled from '@emotion/styled';
 
@@ -29,8 +31,11 @@ const Footer = styled.div`
 `;
 
 export const Layout = ({ title, children }) => {
+  const { state, dispatch } = useContext(Store);
+  const { darkMode } = state;
   const theme = createTheme({
     palette: {
+      mode: darkMode ? 'dark' : 'light',
       primary: {
         main: '#872007',
       },
@@ -38,7 +43,7 @@ export const Layout = ({ title, children }) => {
         main: green[500],
       },
       navcolor: {
-        main: '#1c1b2e',
+        main: '#2c2957',
       },
     },
     typography: {
@@ -86,6 +91,14 @@ export const Layout = ({ title, children }) => {
               `}
             ></div>
             <div>
+              <Switch
+                checked={darkMode}
+                onChange={() => {
+                  dispatch({
+                    type: darkMode ? 'DARK_MODE_OFF' : 'DARK_MODE_ON',
+                  });
+                }}
+              ></Switch>
               <NextLink href="/cart" passHref>
                 <Link
                   sx={{
