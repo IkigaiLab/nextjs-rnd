@@ -41,7 +41,7 @@ export const Layout = ({ title, children }) => {
         main: '#872007',
       },
       secondary: {
-        main: green[500],
+        main: '#357A38',
       },
       navcolor: {
         main: '#2c2957',

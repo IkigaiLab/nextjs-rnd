@@ -1,4 +1,5 @@
 import React, { useContext } from 'react';
+import dynamic from 'next/dynamic';
 import {
   Grid,
   TableContainer,
@@ -20,12 +21,26 @@ import Layout from '../components/Layout';
 import { Store } from '../Utils/Store';
 import NextLink from 'next/link';
 import Image from 'next/image';
+import axios from 'axios';
 
-export default function CartScreen() {
-  const { state } = useContext(Store);
+function CartScreen() {
+  const { state, dispatch } = useContext(Store);
   const {
     cart: { cartItems },
   } = state;
+
+  const updateCardHandler = async (item, quantity) => {
+    const { data } = await axios.get(`/api/products/${item._id}`);
+    if (data.countInStock < quantity) {
+      window.alert('Sorry. Product is out of stock');
+      return;
+    }
+    dispatch({ type: 'CART_ADD_ITEM', payload: { ...item, quantity } });
+  };
+
+  const removeItemHandler = (item) => {
+    dispatch({ type: 'CART_REMOVE_ITEM', payload: item });
+  };
 
   return (
     <Layout title="Shopping Cart">
@@ -34,7 +49,10 @@ export default function CartScreen() {
       </Typography>
       {cartItems.length === 0 ? (
         <div>
-          Cart is empty. <NextLink href="/">Go shopping</NextLink>
+          Cart is empty.{' '}
+          <NextLink href="/" passHref>
+            <Link underline="hover">Go shopping</Link>
+          </NextLink>
         </div>
       ) : (
         <Grid container spacing={1}>
@@ -74,7 +92,12 @@ export default function CartScreen() {
                         </NextLink>
                       </TableCell>
                       <TableCell align="right">
-                        <Select value={item.quantity}>
+                        <Select
+                          value={item.quantity}
+                          onChange={(e) =>
+                            updateCardHandler(item, e.target.value)
+                          }
+                        >
                           {[...Array(item.countInStock).keys()].map((x) => (
                             <MenuItem key={x + 1} value={x + 1}>
                               {x + 1}
@@ -84,7 +107,11 @@ export default function CartScreen() {
                       </TableCell>
                       <TableCell align="right">$ {item.price}</TableCell>
                       <TableCell align="right">
-                        <Button variant="contained" color="secondary">
+                        <Button
+                          variant="contained"
+                          color="secondary"
+                          onClick={() => removeItemHandler(item)}
+                        >
                           x
                         </Button>
                       </TableCell>
@@ -117,3 +144,4 @@ export default function CartScreen() {
     </Layout>
   );
 }
+export default dynamic(() => Promise.resolve(CartScreen), { ssr: false });
