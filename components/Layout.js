@@ -11,6 +11,7 @@ import {
   Link,
   CssBaseline,
   Switch,
+  Badge,
 } from '@mui/material';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { green, purple } from '@mui/material/colors';
@@ -32,7 +33,7 @@ const Footer = styled.div`
 
 export const Layout = ({ title, children }) => {
   const { state, dispatch } = useContext(Store);
-  const { darkMode } = state;
+  const { darkMode, cart } = state;
   const theme = createTheme({
     palette: {
       mode: darkMode ? 'dark' : 'light',
@@ -107,7 +108,16 @@ export const Layout = ({ title, children }) => {
                     m: 3,
                   }}
                 >
-                  Cart
+                  {cart.cartItems.length > 0 ? (
+                    <Badge
+                      color="secondary"
+                      badgeContent={cart.cartItems.length}
+                    >
+                      Cart
+                    </Badge>
+                  ) : (
+                    'Cart'
+                  )}
                 </Link>
               </NextLink>
               <NextLink href="/login" passHref>
