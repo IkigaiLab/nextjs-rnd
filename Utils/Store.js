@@ -21,11 +21,13 @@ function reducer(state, action) {
       const existItem = state.cart.cartItems.find(
         (item) => item._id === newItem._id
       );
+      // console.log(existItem);
       const cartItems = existItem
         ? state.cart.cartItems.map((item) =>
             item.name === existItem.name ? newItem : item
           )
         : [...state.cart.cartItems, newItem];
+      // console.log(cartItems);
       Cookies.set('cartItems', JSON.stringify(cartItems));
       return { ...state, cart: { ...state.cart, cartItems } };
     }

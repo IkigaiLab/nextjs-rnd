@@ -8,7 +8,7 @@ const data = {
       price: 60,
       rating: 4.5,
       numReviews: 20,
-      countInStock: 12,
+      countInStock: 4,
       description: 'A popular shirt',
     },
     {
@@ -19,7 +19,7 @@ const data = {
       price: 70,
       rating: 4.5,
       numReviews: 20,
-      countInStock: 12,
+      countInStock: 10,
       description: 'A popular shirt',
     },
     {
@@ -52,7 +52,7 @@ const data = {
       price: 95,
       rating: 4.5,
       numReviews: 20,
-      countInStock: 12,
+      countInStock: 22,
       description: 'A popular fit pants',
     },
     {
@@ -63,7 +63,7 @@ const data = {
       price: 85,
       rating: 4.5,
       numReviews: 20,
-      countInStock: 12,
+      countInStock: 9,
       description: 'A popular pants',
     },
   ],
