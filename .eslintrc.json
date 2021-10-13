@@ -1,5 +1,6 @@
 {
-  "extends": "next/core-web-vitals",
+  "extends": ["next/core-web-vitals", "next"]
+  // "extends": ["next/core-web-vitals", "next", "eslint:recommended"]  //for things not used shown highligher
 
-  "@next/next/no-document-import-in-page": "off"
+  // "@next/next/no-document-import-in-page": "off"
 }
