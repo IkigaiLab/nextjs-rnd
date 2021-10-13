@@ -15,11 +15,11 @@ import {
 import { css } from '@emotion/react';
 import data from '../../Utils/data';
 import Layout from '../../components/Layout';
+import db from '../../Utils/db';
+import Product from '../../models/Product';
 
-const ProductScreen = () => {
-  const router = useRouter();
-  const { slug } = router.query;
-  const product = data.products.find((a) => a.slug === slug);
+const ProductScreen = (props) => {
+  const { product } = props;
   if (!product) {
     return <div>Product Not Found</div>;
   }
@@ -106,3 +106,16 @@ const ProductScreen = () => {
 };
 
 export default ProductScreen;
+
+export async function getServerSideProps(context) {
+  const { params } = context;
+  const { slug } = params;
+  await db.connect();
+  const product = await Product.findOne({ slug }).lean();
+  await db.disconnect();
+  return {
+    props: {
+      product: db.convertDocToObj(product),
+    },
+  };
+}
