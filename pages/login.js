@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import {
   List,
   ListItem,
@@ -12,8 +12,22 @@ import { css } from '@emotion/react';
 import NextLink from 'next/link';
 import Layout from '../components/Layout';
 import axios from 'axios';
+import { Store } from '../Utils/Store';
+import { useRouter } from 'next/router';
+import Cookies from 'js-cookie';
 
 export default function Login() {
+  const router = useRouter();
+  const { redirect } = router.query;
+  const { state, dispatch } = useContext(Store);
+  const { userInfo } = state;
+
+  useEffect(() => {
+    if (userInfo) {
+      router.push('/');
+    }
+  });
+
   const [email, setemail] = useState('');
   const [password, setpassword] = useState('');
   const submitHandler = async (e) => {
@@ -23,7 +37,10 @@ export default function Login() {
         email,
         password,
       });
-      alert('success login');
+      console.log(data);
+      dispatch({ type: 'USER_LOGIN', payload: data });
+      Cookies.set('userInfo', JSON.stringify(data));
+      router.push(redirect || '/');
     } catch (err) {
       alert(err.response.data ? err.response.data.message : err.message);
     }
